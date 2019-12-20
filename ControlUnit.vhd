@@ -1,15 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY mux2_5bit IS  
-      PORT (IN1,IN2  :  IN std_logic_vector(4 DOWNTO 0);
-            SEl	:  IN std_logic;
-  	    OUT1        : OUT  std_logic_vector(4 DOWNTO 0));    
-END ENTITY mux2_5bit;
-
-library ieee;
-use ieee.std_logic_1164.all;
-
 Entity S_bit IS
 port   ( SRCin,Op1,Clk,rst: IN std_logic;
 	  Q: OUT std_logic);
