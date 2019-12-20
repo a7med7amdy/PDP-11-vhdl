@@ -5,5 +5,5 @@
 
  # instructions to compile
 
- ![instruction steps](/how to compile files.png)
+ ![instruction steps](/how_to_compile_files.png)
 
