@@ -23,6 +23,7 @@ prompt <=SRCin or Op1 or feedback;
 U0: entity work.my_DFF port map(prompt,Clk,rst,feedback);
 Q<=feedback;
 end S_BitBehavior;
+------------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -36,7 +37,7 @@ port (  IR : IN std_logic_vector (15 Downto 0);
 	MPC : OUT std_logic_vector(4 Downto 0));
 end ControlUnitComplete;
 
-Architecture Decodeing_Circuit of ControlUnitComplete is
+Architecture Decoding_Circuit of ControlUnitComplete is
 --Some of wires are signals(utility), others are output
 signal SRCin,op1,SBit,PLAout : std_logic;
 signal F6 :std_logic_vector(1 downto 0 );
@@ -53,4 +54,4 @@ begin
 	N4:entity work.mux2_5bit port map(nextaddress2,nextaddress1,PLAout,MPC);
 
 	N: entity work.mux2_3bit port map(IR(8 downto 6), IR(2 downto 0),SBit,Reg);
-end Decodeing_Circuit;
+end Decoding_Circuit;

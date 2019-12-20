@@ -37,7 +37,7 @@ END COMPONENT ;
 
 begin
 auxNor <= not(M(0) or M(1) or M(2));
-u0: mux4 PORT MAP (NextAddressField(0),Sbit,auxNor,M(2),F6,muxout);
+u0: mux4_1bit PORT MAP (NextAddressField(0),Sbit,auxNor,M(2),F6,muxout);
 N0new <= NextAddressField(0) or muxout;
 N0new2 <= N0new or Sbit;
 selAux <= F6(0) and F6(1) and N0new;
