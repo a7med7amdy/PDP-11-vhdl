@@ -3,7 +3,7 @@
 
  ![ARCHITECTURE SCHEME](/bus_scheme.png)
 
- # instructions to compile
+ ## instructions to compile
 
  ![instruction steps](/how_to_compile_files.png)
 
