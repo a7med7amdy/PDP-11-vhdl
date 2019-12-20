@@ -27,7 +27,7 @@ begin
 	process(IR,FlagReg)
 	begin
         Carry <= FlagReg(0);
-        Zero <= FlagReg(1);
+        Zero <= FlagReg(3);
         selector <= IR(13 Downto 11);
     if (selector ="000") then
         condition<= '1';
