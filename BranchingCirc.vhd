@@ -3,7 +3,7 @@ USE IEEE.std_logic_1164.all;
 
 Entity BranchingCirc is
 	port(PCin,IR,FlagReg : IN std_logic_vector(15 Downto 0);
-	     PCput : out std_logic_vector (15 Downto 0));
+	     PCout : out std_logic_vector (15 Downto 0));
 end BranchingCirc;
 
 architecture BranchingCircArch of BranchingCirc is

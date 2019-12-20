@@ -68,7 +68,7 @@ begin
 	L: entity work.ram port map (ClkM,Wr,R(5)(5 DOWNTO 0),R(6),fromMemory);
 
 	L0: for i in 1 to 6 generate
-	U:  reg16 port map(Clk,Rst,Trin(i),R(i));
+	U:  reg16 port map(Trin(i),Clk,Rst,R(i));
 	end generate;
 	
 	process (R)

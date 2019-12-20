@@ -25,12 +25,18 @@ architecture arch of loadFromNextAddress is
             OUT1        : OUT  std_logic); 
     END COMPONENT; 
 -------------------------------------------------------------------
-COMPONENT mux2_3bit IS
-PORT (IN1,IN2   :  IN std_logic_vector(2 DOWNTO 0);
-        SEl	    :  IN std_logic;
-    OUT1        : OUT  std_logic_vector(2 DOWNTO 0));   
-END COMPONENT ;
+    COMPONENT mux2_3bit IS
+    PORT (IN1,IN2   :  IN std_logic_vector(2 DOWNTO 0);
+            SEl	    :  IN std_logic;
+        OUT1        : OUT  std_logic_vector(2 DOWNTO 0));   
+    END COMPONENT ;
 -------------------------------------------------------------------
+    COMPONENT mux4_1bit IS
+    PORT( in0,in1,in2,in3: IN std_logic;
+                sel : IN std_logic_vector (1 DOWNTO 0);
+                out1: OUT std_logic);
+    END COMPONENT;
+---------------------------------------------------------------------
     signal  muxout,auxNor : std_logic;
     signal  N0new,N0new2 : std_logic;
     signal  selAux : std_logic;
