@@ -10,9 +10,9 @@ END mux4_1bit;
 
 ARCHITECTURE  arch1 OF mux4_1bit IS
 BEGIN
-        out1 <=   in0 WHEN sel(0) = '0' AND sel(1) ='0'
-            ELSE in1 WHEN   sel(0) = '0' AND sel(1) ='1'
-            ELSE in2 WHEN   sel(0) = '1' AND sel(1) ='0'
+        out1 <=  in0 WHEN sel="00"
+            ELSE in1 WHEN sel="01"
+            ELSE in2 WHEN sel="10"
             ELSE in3;
 
 END arch1;
