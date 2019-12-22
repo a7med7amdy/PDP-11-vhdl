@@ -19,14 +19,14 @@ END Data_flow;
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY mux2_3bit IS  
-      PORT (IN1,IN2  :  IN std_logic_vector(2 DOWNTO 0);
+ENTITY mux2_4bit IS  
+      PORT (IN1,IN2  :  IN std_logic_vector(3 DOWNTO 0);
             SEl	:  IN std_logic;
-  		      OUT1        : OUT  std_logic_vector(2 DOWNTO 0));    
-END ENTITY mux2_3bit;
+  		      OUT1        : OUT  std_logic_vector(3 DOWNTO 0));    
+END ENTITY mux2_4bit;
 
 
-ARCHITECTURE Data_flow1 OF mux2_3bit IS
+ARCHITECTURE Data_flow1 OF mux2_4bit IS
 BEGIN
      
 out1 <=   IN1 WHEN SEl = '0' 

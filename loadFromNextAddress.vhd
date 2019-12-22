@@ -25,11 +25,11 @@ architecture arch of loadFromNextAddress is
             OUT1        : OUT  std_logic); 
     END COMPONENT; 
 -------------------------------------------------------------------
-    COMPONENT mux2_3bit IS
-    PORT (IN1,IN2   :  IN std_logic_vector(2 DOWNTO 0);
-            SEl	    :  IN std_logic;
-        OUT1        : OUT  std_logic_vector(2 DOWNTO 0));   
-    END COMPONENT ;
+    component mux2_4bit IS  
+      PORT (IN1,IN2  :  IN std_logic_vector(3 DOWNTO 0);
+            SEl	:  IN std_logic;
+  		      OUT1        : OUT  std_logic_vector(3 DOWNTO 0));    
+    END component ;
 -------------------------------------------------------------------
     COMPONENT mux4_1bit IS
     PORT( in0,in1,in2,in3: IN std_logic;
@@ -37,17 +37,17 @@ architecture arch of loadFromNextAddress is
                 out1: OUT std_logic);
     END COMPONENT;
 ---------------------------------------------------------------------
-    signal  muxout,auxNor : std_logic;
+    signal  muxout,auxNor,regDir : std_logic;
     signal  N0new,N0new2 : std_logic;
     signal  selAux : std_logic;
 
 begin
 auxNor <= M(0) or M(1) or M(2);
-u0: mux4_1bit PORT MAP (NextAddressField(0),Sbit,auxNor,M(2),F6,muxout);
+regDir<=not(M(2));
+u0: mux4_1bit PORT MAP (NextAddressField(0),Sbit,auxNor,regDir,F6,muxout);
 N0new <= NextAddressField(0) or muxout;
 N0new2 <= N0new or Sbit;
 selAux <= F6(0) and F6(1) and N0new;
 u1: mux2 PORT MAP (N0new,N0new2,selAux,AddOut(0));
-u2: mux2_3bit PORT MAP (NextAddressField(3 DOWNTO 1),"000",selAux,AddOut(3 DOWNTO 1));
-AddOut(4) <= NextAddressField(4);
+u2: mux2_4bit PORT MAP (NextAddressField(4 DOWNTO 1),"1000",selAux,AddOut(4 DOWNTO 1));
 end arch ; -- arch
