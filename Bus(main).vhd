@@ -44,7 +44,7 @@ architecture MainRoutine of processor is
 	--signal En1in,En2in,En3in,En4in,En1out,En2out,En3out,En4out : std_logic;
 	signal BR,HLT,ClkM : std_logic;
 	signal RegSelect : std_logic_vector(2 downto 0);
-	signal PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,PLA,CARRYin,Zin : std_logic;
+	signal PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,Zin : std_logic;
 	signal bibus,fromMemory : std_logic_vector(15 DOWNTO 0);
 	signal R,Trin,Trout : array16;
 	--R0:7  R8-->MAR  R9-->MDR  R10-->IR  R11-->Source  R12-->Y   R13-->Z   R14-->FR
@@ -56,7 +56,7 @@ begin
 	ClkM<= not (Clk);
 	-----------------------------------------------------------------
 	--Control Unit port mapping
-	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,PLA,CARRYin);
+	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin);
 	Zin<= ADD or SOURCEout or CARRYin;
 	-----------------------------------------------------------------
 	--Register file port mapping

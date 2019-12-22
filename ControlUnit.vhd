@@ -11,7 +11,7 @@ signal prompt,feedback :std_logic;
 begin
 	prompt <=SRCin or Op1 or feedback;
 	U0: entity work.my_DFF port map(prompt,Clk,rst,feedback);
-	Q<=feedback;
+	Q<=prompt;
 end S_BitBehavior;
 ------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ port (  IR : IN std_logic_vector (15 Downto 0);
 	Clk,RST:  IN std_logic;
 	BR,HLT : OUT std_logic;
 	Reg : OUT std_logic_vector(2 downto 0);
-	PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,PLA,CARRYin: OUT std_logic);
+	PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin: OUT std_logic);
 end ControlUnitComplete;
 
 Architecture Decoding_Circuit of ControlUnitComplete is
@@ -53,7 +53,6 @@ begin
 
 
 	CARRYin<=CW(2);  --F5 signal
-	PLA<=PLAout;
 	SOURCEin<=SRCin;
 	
 	N: entity work.mux2_3bit port map(IR(8 downto 6), IR(2 downto 0),SBit,Reg);
