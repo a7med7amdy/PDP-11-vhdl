@@ -15,7 +15,7 @@ END ENTITY ram;
 
 ARCHITECTURE sync_ram_a OF ram IS
 
-TYPE ram_type IS ARRAY(0 TO 31) of std_logic_vector(15 DOWNTO 0);
+TYPE ram_type IS ARRAY(0 TO 2000) of std_logic_vector(15 DOWNTO 0);
 
 SIGNAL ram : ram_type := (
 0 => X"0064",
