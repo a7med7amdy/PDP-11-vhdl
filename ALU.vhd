@@ -9,7 +9,7 @@ entity ALU is
         signal_add    : in std_logic;
         signal_sub    : in std_logic;
         Cin           : in std_logic;
-	    flag          : in std_logic_vector(4 downto 0);
+	flag          : in std_logic_vector(15 downto 0);
         flag_reg      : out std_logic_vector(4 downto 0);
         Z             : inout std_logic_vector(15 downto 0)
     );

@@ -46,21 +46,21 @@ architecture MainRoutine of processor is
 	signal BR,HLT,Clk,ClkM : std_logic;
 	signal RegSelect : std_logic_vector(2 downto 0);
 	signal PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,Zin : std_logic;
-	signal bibus,fromMemory,flagReg,BranchCircOut : std_logic_vector(15 DOWNTO 0);
+	signal bibus,fromMemory,BranchCircOut,toflag : std_logic_vector(15 DOWNTO 0);
 	signal R,Trin,Trout : array16;
 	--R0:7  R8-->MAR  R9-->MDR  R10-->IR  R11-->Source  R12-->Y   R13-->Z   R14-->FR
 	signal RegEnableIN,RegEnableOUT : std_logic_vector(0 to 7);
 	signal EnableIN,EnableOUT : std_logic_vector (0 to 13);
-	signal ALUoperation : std_logic_vector (4 downto 0);
+	signal ALUoperation,flagReg : std_logic_vector (4 downto 0);
 	signal EnableSPin,EnablePCin,EnableSPout,EnablePCout : std_logic;
 	
 begin
 	--Memory Clock is opposite to normal one
-	Clk<=Clock and not (HlT);
+	Clk<=Clock ;--and not (HlT);
 	ClkM<= not (Clk);
 	-----------------------------------------------------------------
 	--Control Unit port mapping
-	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation);
+	unit: entity work.ControlUnitComplete port map(R(10),ClkM,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation);
 	Zin<= ADD or SOURCEout or CARRYin;
 	-----------------------------------------------------------------
 	--Register file port mapping
@@ -108,7 +108,8 @@ begin
 	-------------------------------------------------------------------
 	--ALU $ FlagRegister port mapping
 	aluport: entity work.ALU port map(bibus,R(12),ALUoperation,ADD,SUB,CARRYin,R(14),flagReg,ALUout);
-	forFR:entity work.tri_state_buffer port map (flagReg,Zin,Trin(14));
+	toflag<="00000000000" & flagReg;
+	forFR:entity work.tri_state_buffer port map (toflag,Zin,Trin(14));
 	--flagR:   entity work.reg16 port map(flagReg,Clk,RST,R(14)); in the loop
 	-------------------------------------------------------------------
 	--Branching circuit port mapping

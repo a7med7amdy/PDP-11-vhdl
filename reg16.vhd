@@ -15,7 +15,9 @@ BEGIN
 IF Rst = '1' THEN
 		q <= (OTHERS=>'0');
 ELSIF rising_edge(Clk) THEN
-		q <= d;
+		if d /="ZZZZZZZZZZZZZZZZ" then
+			q <= d;
+		end if;
 END IF;
 END PROCESS;
 END arch;
@@ -37,7 +39,7 @@ BEGIN
 IF Rst = '1' THEN
 		q <= (OTHERS=>'0');
 ELSIF rising_edge(Clk) THEN
-		q <= d;
+		q<=d;
 END IF;
 END PROCESS;
 END arch;
@@ -59,7 +61,9 @@ BEGIN
 IF Rst = '1' THEN
 		q <= (OTHERS=>'1');
 ELSIF rising_edge(Clk) THEN
-		q <= d;
+		if d /="ZZZZZZZZZZZZZZZZ" then
+			q <= d;
+		end if;
 END IF;
 END PROCESS;
 END arch;
