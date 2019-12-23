@@ -52,27 +52,33 @@ architecture MainRoutine of processor is
 	signal RegEnableIN,RegEnableOUT : std_logic_vector(0 to 7);
 	signal EnableIN,EnableOUT : std_logic_vector (0 to 13);
 	signal ALUoperation,flagReg : std_logic_vector (4 downto 0);
-	signal EnableSPin,EnablePCin,EnableSPout,EnablePCout : std_logic;
+	signal EnableSPin,EnablePCin,EnableSPout,EnablePCout, clrY: std_logic;
 	
 begin
 	--Memory Clock is opposite to normal one
-	Clk<=Clock ;--and not (HlT);
+	Clk<=Clock and not (HlT);
 	ClkM<= not (Clk);
+	--clk<=not clock;
+	--clkm<=clock;
 	-----------------------------------------------------------------
 	--Control Unit port mapping
-	unit: entity work.ControlUnitComplete port map(R(10),ClkM,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation);
+	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation);
 	Zin<= ADD or SOURCEout or CARRYin;
+	clrY<=rst or carryin;
 	-----------------------------------------------------------------
 	--Register file port mapping
 	L0: for i in 0 to 5 generate
 		U: entity work.reg16 port map(Trin(i),Clk,Rst,R(i));
 	end generate;
 	U: entity work.regSP port map(Trin(6),Clk,Rst,R(6));
-	L22: for i in 7 to 14 generate
+	L22: for i in 7 to 11 generate
 		U22: entity work.reg16 port map(Trin(i),Clk,Rst,R(i));
 	end generate;
+	U23: entity work.reg16 port map(Trin(12),Clk,clrY,R(12));
+	U24: entity work.reg16 port map(Trin(13),Clk,Rst,R(13));
+	U25: entity work.reg16 port map(Trin(14),Clk,Rst,R(14));
         ------------------------------------------------------------------
-	--Connect registers to input to the bus
+	--Connect registers to take from the bus
 	Input: entity work.RegDecoder port map(RegSelect,Rin,RegEnableIN);
 	EnableIN<=RegEnableIN & MARin & MDRin & IRin & SOURCEin & Yin & '0';
 
@@ -88,7 +94,7 @@ begin
 	end generate;
 	forZ:entity work.tri_state_buffer port map (ALUout,Zin,Trin(13));
         -------------------------------------------------------------------
-	--Connect registers to take from bus
+	--Connect registers to input to bus
 	Output: entity work.RegDecoder port map(RegSelect,Rout,RegEnableOUT);
 	EnableOUT<=RegEnableOUT & '0' & MDRout & '0' & SOURCEout & '0' & Zout;
 	L1: for i in 0 to 5 generate
@@ -103,7 +109,7 @@ begin
 	forZout  :entity work.tri_state_buffer port map (R(13),EnableOUT(13),Trout(13));
 	-------------------------------------------------------------------
 	--Raaaaaaaaaaaaaaaaaaaaaaaaam
-	L: entity work.ram port map (ClkM,Wr,R(8)(4 DOWNTO 0),R(9),fromMemory);
+	L: entity work.ram port map (Clkm,Wr,R(8)(4 DOWNTO 0),R(9),fromMemory);
 	Z4: entity work.tri_state_buffer port map (fromMemory,Rd,TRin(9));
 	-------------------------------------------------------------------
 	--ALU $ FlagRegister port mapping

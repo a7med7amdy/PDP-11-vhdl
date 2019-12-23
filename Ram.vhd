@@ -18,7 +18,7 @@ ARCHITECTURE sync_ram_a OF ram IS
 TYPE ram_type IS ARRAY(0 TO 2000) of std_logic_vector(15 DOWNTO 0);
 
 SIGNAL ram : ram_type := (
-0 => "1010000000000000",
+0 => "1010000000100010",
 1 => "1111100000000000",
 2 => X"0066",
 3 => X"0067",

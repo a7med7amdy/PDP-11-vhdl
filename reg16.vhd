@@ -10,14 +10,21 @@ end reg16;
 
 ARCHITECTURE arch OF reg16 IS
 BEGIN
-PROCESS (Clk,Rst)
-BEGIN
-IF Rst = '1' THEN
-		q <= (OTHERS=>'0');
-ELSIF rising_edge(Clk) THEN
-		if d /="ZZZZZZZZZZZZZZZZ" then
-			q <= d;
-		end if;
+--PROCESS (Clk,Rst)
+--BEGIN
+--IF Rst = '1' THEN
+--		q <= (OTHERS=>'0');
+--ELSIF clk'event and clk = '1' THEN
+--		if d /="ZZZZZZZZZZZZZZZZ" then
+--			q <= d;
+--		end if;
+process (d,rst)
+begin
+if rst = '1' then
+	q <= (OTHERS=>'0');
+elsif d/="ZZZZZZZZZZZZZZZZ" then
+	q<=d;
+
 END IF;
 END PROCESS;
 END arch;
@@ -56,14 +63,12 @@ end regSP;
 
 ARCHITECTURE arch OF regSP IS
 BEGIN
-PROCESS (Clk,Rst)
+PROCESS (d,Rst)
 BEGIN
 IF Rst = '1' THEN
 		q <= (OTHERS=>'1');
-ELSIF rising_edge(Clk) THEN
-		if d /="ZZZZZZZZZZZZZZZZ" then
-			q <= d;
-		end if;
+ELSif d /="ZZZZZZZZZZZZZZZZ" then
+	q <= d;
 END IF;
 END PROCESS;
 END arch;
