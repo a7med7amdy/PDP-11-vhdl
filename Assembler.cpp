@@ -8,7 +8,7 @@
 #include<bitset>
 using namespace std;
 
-vector<string>code(4000);
+vector<string>code(4096);
 unordered_map<string, string>opcodes;
 unordered_map<string, string>registers;
 unordered_map<string, string>modes;
@@ -301,7 +301,7 @@ void read_file_and_clean() {
 				k++;
 				continue;
 			}
-			//////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////
 			int num_indic = -1;
 			string num = "";
 			for (int i = 0;i < line.size();++i) {
@@ -354,11 +354,20 @@ void write_assembled_file() {
 	//freopen_s("assembled file.txt", "W", stdout);
 	ofstream outfile("assembled file.txt");
 	for (int i = 0;i < code.size();++i) {
-		if (code[i] == "") {
-			outfile.close();
-			return;
+		if (i != 0) {
+			if (code[i] == "") {
+				outfile <<endl<< ");";
+				outfile.close();
+				return;
+			}
+			else {
+				outfile << "," << endl;
+			}
 		}
-		outfile << code[i] << endl;
+		else {
+			outfile << "SIGNAL ram : ram_type := (" << endl;
+		}
+		outfile <<" "<<i<<"=> \""<<code[i]<<"\"";
 	}
 	outfile.close();
 }
