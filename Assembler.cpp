@@ -84,7 +84,7 @@ void find_branch(string line) {
 					}
 				}
 			}
-			code[k] += (bitset<8>(stoi(offset)).to_string());
+			code[k] += (bitset<8>(stoi(offset)-1).to_string());
 		}
 	}
 	else if (line[1] == 'R' && line[2] == ' ') {
@@ -103,7 +103,7 @@ void find_branch(string line) {
 				}
 			}
 		}
-		code[k] += (bitset<8>(stoi(offset)).to_string());
+		code[k] += (bitset<8>(stoi(offset)-1).to_string());
 	}
 	else {
 		cerr << "You have entered wrong input near (B)" << endl;
@@ -301,7 +301,7 @@ void read_file_and_clean() {
 				k++;
 				continue;
 			}
-			////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////
 			int num_indic = -1;
 			string num = "";
 			for (int i = 0;i < line.size();++i) {
@@ -351,7 +351,6 @@ void read_file_and_clean() {
 }
 ///////////////////////////////////////////////////////////
 void write_assembled_file() {
-	//freopen_s("assembled file.txt", "W", stdout);
 	ofstream outfile("assembled file.txt");
 	for (int i = 0;i < code.size();++i) {
 		if (i != 0) {
