@@ -25,9 +25,9 @@ ARCHITECTURE n_arch OF Adder_bits_n IS
 BEGIN     
     t(0) <= Ci; 
     Co <= t(16);    
-    
+    V  <= t(16) XOR t(15);
     FA: for i in 0 to 15 generate  
         FA_i: FullAdder PORT MAP (t(i), a(i), b(i), S(i), t(i+1));     
     end generate; 
-    V    <= t(16) XOR t(15); 
+     
 END n_arch; 
