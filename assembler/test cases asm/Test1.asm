@@ -1,0 +1,20 @@
+MOV 19, R0
+MOV #20, R3
+MOV (R3)+, 18
+DEC R0
+CMP 18, @R3
+MOV @R3, 18
+DEC R0
+BEQ 2
+INC R3
+BR -12
+HLT
+#0
+#7
+#4
+#5
+#3
+#6
+#1
+#8
+#2

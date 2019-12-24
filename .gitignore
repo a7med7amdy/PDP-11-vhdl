@@ -4,3 +4,7 @@
 !/*.png
 !/.git*
 !/do_files
+!/assembler
+Debug
+assembler.v*
+*.sln
