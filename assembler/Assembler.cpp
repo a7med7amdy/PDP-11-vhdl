@@ -84,7 +84,7 @@ void find_branch(string line) {
 					}
 				}
 			}
-			code[k] += (bitset<8>(stoi(offset)-1).to_string());
+			code[k] += (bitset<8>(stoi(offset) - 1).to_string());
 		}
 	}
 	else if (line[1] == 'R' && line[2] == ' ') {
@@ -92,7 +92,7 @@ void find_branch(string line) {
 		int i = 3;
 		string offset = "";
 		while (i < line.size()) {
-			if((line[i]-'0'>=0&& line[i]-'0'<=9)|| line[i]=='-')
+			if ((line[i] - '0' >= 0 && line[i] - '0' <= 9) || line[i] == '-')
 				offset += line[i++];
 			else {
 				cerr << "You have entered wrong input near (B)" << endl;
@@ -103,7 +103,7 @@ void find_branch(string line) {
 				}
 			}
 		}
-		code[k] += (bitset<8>(stoi(offset)-1).to_string());
+		code[k] += (bitset<8>(stoi(offset) - 1).to_string());
 	}
 	else {
 		cerr << "You have entered wrong input near (B)" << endl;
@@ -116,7 +116,7 @@ void find_branch(string line) {
 }
 
 /////////////////////////////////////////////////////////////////////////
-string there_is_hash(string line,int indirect_flag,int hash_place) {
+string there_is_hash(string line, int indirect_flag, int hash_place) {
 	int fff = line.find('(');
 	if (fff >= 0) {
 		if (line[fff - 1] - '0' >= 0 && line[fff - 1] - '0' <= 9 && fff < hash_place)
@@ -144,7 +144,7 @@ string there_is_hash(string line,int indirect_flag,int hash_place) {
 		code[k + 2] = (bitset<16>(stoi(num)).to_string());
 	}
 	else {
-		if(code[k+1]=="")
+		if (code[k + 1] == "")
 			code[k + 1] = (bitset<16>(stoi(num)).to_string());
 		else
 			code[k + 2] = (bitset<16>(stoi(num)).to_string());
@@ -154,7 +154,7 @@ string there_is_hash(string line,int indirect_flag,int hash_place) {
 ///////////////////////////////////////////////////////////////////////////////////
 void process(string line) {
 	//flags for indirect, direct,auto inc and dec and regester
-	bool ad = 0, ai = 0, at = 0, ind = 0, dir=0;
+	bool ad = 0, ai = 0, at = 0, ind = 0, dir = 0;
 	string check1, check2, check3 = "";
 	check1 += line[0], check1 += line[1];
 	check3 += line[0], check3 += line[1], check3 += line[2];
@@ -164,25 +164,25 @@ void process(string line) {
 	for (int i = 0;i < line.size();++i) {
 		if (!f) {
 			if (check1 == "OR") {
-					code[k]+=(opcodes[check3]);
-					i += 1;
+				code[k] += (opcodes[check3]);
+				i += 1;
 			}
 			else if (check2 == "XNOR" || check2 == "IRET") {
-				if (check2 == "IRET") { code[k]+=(opcodes[check2]); break; }
+				if (check2 == "IRET") { code[k] += (opcodes[check2]); break; }
 				else {
-					code[k]+=(opcodes[check2]);
+					code[k] += (opcodes[check2]);
 					i += 3;
 				}
 			}
 			else if (line[i] == ';')break;
 			else {
 				//if JSR , treat it
-				code[k]+=(opcodes[check3]);
+				code[k] += (opcodes[check3]);
 				if (check3 == "JSR") {
 					string d = "";
-					int o = 3;
+					int o = 6;
 					while (o < line.size()) {
-						if(line[o]-'0'>=0 && line[o] - '0' <= 9)
+						if (line[o] - '0' >= 0 && line[o] - '0' <= 9)
 							d += line[o++];
 						else {
 							cerr << "You have entered wrong input near" << endl;
@@ -193,7 +193,7 @@ void process(string line) {
 							}
 						}
 					}
-					code[k+1]= (bitset<16>(stoi(d)).to_string());
+					code[k + 1] = (bitset<16>(stoi(d)).to_string());
 					k += 2;
 					return;
 				}
@@ -204,49 +204,49 @@ void process(string line) {
 		}
 		else {
 			if (line[i] == ';')break;
-			else if (line[i] == '@')code[k]+=("1"),at=1;
-			else if (line[i] == '-') { if (at != 1)code[k]+=("0"), dir = 1;code[k]+=(modes["auto_dec"]), ad = 1; }
+			else if (line[i] == '@')code[k] += ("1"), at = 1;
+			else if (line[i] == '-') { if (at != 1)code[k] += ("0"), dir = 1;code[k] += (modes["auto_dec"]), ad = 1; }
 			else if (line[i] == '+') continue;
 			else if (line[i] == '(' || line[i] == ')')continue;
 			else if (line[i] == 'R') {
-				if (at != 1 && dir!=1)code[k] += ("0");
-				if (i+3<line.size() && line[i + 3] == '+') {
-					 code[k]+=(modes["auto_inc"]), ai = 1;
+				if (at != 1 && dir != 1)code[k] += ("0");
+				if (i + 3<line.size() && line[i + 3] == '+') {
+					code[k] += (modes["auto_inc"]), ai = 1;
 				}
 				if (ad != 1 && ai != 1 && ind != 1)
-					code[k]+=(modes["reg"]);
+					code[k] += (modes["reg"]);
 				string o = "";
-				o += line[i],o+=line[i + 1];
-				code[k]+=(registers[o]);
+				o += line[i], o += line[i + 1];
+				code[k] += (registers[o]);
 				i++;
 			}
 			else if (line[i] == ',') {
-				ind = ad = ai = dir=at= 0;
+				ind = ad = ai = dir = at = 0;
 			}
 			else {
-					if (at != 1)code[k] += ("0"), dir = 1;
-					code[k] += (modes["indexed"]);
-					int j = i;
-					string t = "";
-					while (line[j] != '(') {
-						if (line[j] - '0' >= 0 && line[j] - '0' <= 9)
-							t += line[j++];
-						else {
-							cerr << "You have entered wrong input near" << endl;
-							cout << "press any key to continue then enter" << endl;
-							char c;
-							while (cin >> c) {
-								exit(0);
-							}
+				if (at != 1)code[k] += ("0"), dir = 1;
+				code[k] += (modes["indexed"]);
+				int j = i;
+				string t = "";
+				while (line[j] != '(') {
+					if (line[j] - '0' >= 0 && line[j] - '0' <= 9)
+						t += line[j++];
+					else {
+						cerr << "You have entered wrong input near" << endl;
+						cout << "press any key to continue then enter" << endl;
+						char c;
+						while (cin >> c) {
+							exit(0);
 						}
 					}
-					if (code[k + 1].empty()) {
-						code[k + 1] += (bitset<16>(stoi(t)).to_string());
-					}
-					else
-						code[k + 2] += (bitset<16>(stoi(t)).to_string());
-					ind = 1;
-					i += t.size()-1;
+				}
+				if (code[k + 1].empty()) {
+					code[k + 1] += (bitset<16>(stoi(t)).to_string());
+				}
+				else
+					code[k + 2] += (bitset<16>(stoi(t)).to_string());
+				ind = 1;
+				i += t.size() - 1;
 			}
 		}
 	}
@@ -272,6 +272,7 @@ void process(string line) {
 	}
 }
 void read_file_and_clean() {
+	bool HLT_FLAG = 0;
 	ifstream file("thefile.txt");
 	if (file.is_open()) {
 		std::string line;
@@ -280,7 +281,7 @@ void read_file_and_clean() {
 				continue;
 			int hash_flag = 0;
 			int indirect_flag = 0;
-			int hash_place=-1;
+			int hash_place = -1;
 
 			//diagnose branching
 			///////////////////////////////////////////////////////////////////////////////////
@@ -291,9 +292,9 @@ void read_file_and_clean() {
 			}
 			//////////////////////////////////////////////////////////////////////////
 			//for variables at the end
-			if (line[0] == '#') {
+			if (line[0] == '#'&&HLT_FLAG) {
 				string d = "";
-				int i=1;
+				int i = 1;
 				while (i < line.size()) {
 					d += line[i++];
 				}
@@ -301,49 +302,61 @@ void read_file_and_clean() {
 				k++;
 				continue;
 			}
+			else if (line[0] == '#'&&HLT_FLAG == 0) {
+				cerr << "You have entered wrong input no flag should be here" << endl;
+				cout << "press any key to continue then enter" << endl;
+				char c;
+				while (cin >> c) {
+					exit(0);
+				}
+			}
 			//////////////////////////////////////////////////////////////////////////
 			int num_indic = -1;
 			string num = "";
 			for (int i = 0;i < line.size();++i) {
 				if (line[i] == ' ')
-					line.erase(line.begin() + i),i--;
+					line.erase(line.begin() + i), i--;
 				//detect if there's a hash in code but not variable
 				if (line[i] == '#') {
-						hash_flag = 1;
-						hash_place = i;
+					hash_flag = 1;
+					hash_place = i;
 				}
 				//detecting if the line has an Absolute Addressing Mode
 				int comma = line.find(',');
-				if (line[i] - '0' >= 0 && line[i] - '0' <= 9 && line[i-1]!='R' && ((hash_place>i || hash_place<0)||(hash_place<i && comma>hash_place && comma<i))) {
-					if(num_indic<0)
+				if (line[i] - '0' >= 0 && line[i] - '0' <= 9 && line[i - 1] != 'R' && ((hash_place>i || hash_place<0) || (hash_place<i && comma>hash_place && comma<i))) {
+					if (num_indic<0)
 						num_indic = i;
 					num += line[i];
 				}
 				//deferentiating if the line has an Absolute Addressing Mode or the number found because line has indexed integer mainly
 				if (line[i] == ','&& num_indic >= 0) {
 					if (!(line[i - 1] == ')'))
-						line.replace(num_indic, num.size(), num + "(R7)"), num_indic = -1,num="";
+						line.replace(num_indic, num.size(), num + "(R7)"), num_indic = -1, num = "";
 					else
 						num_indic = -1;
 				}
 				//handling hash of immediate addressing in the operand before , (first operand)
 				if (line[i] == ','&&hash_flag == 1) {
-					line=there_is_hash(line, indirect_flag, hash_place);
+					line = there_is_hash(line, indirect_flag, hash_place);
 					hash_flag = 0;
 					hash_place = -1;
-					i = line.find(',') ;
+					i = line.find(',');
 				}
 			}
+			int yy = line.find("JSR");
 			//if there's an Absolute Addressing Modereplace it with the number and indexed by th pc
-			if (num_indic >= 0 && line[line.size()-1]!=')') {
-				line.replace(num_indic,num.size(),num+"(R7)");
+			if (num_indic >= 0 && line[line.size() - 1] != ')' && (yy<0 || yy>line.size())) {
+				line.replace(num_indic, num.size(), num + "(R7)");
 				num_indic = -1;
 			}
 			string newline = line;
 			//if there's a hash immediate in code  (second operand), diagnose it before processing.
 			if (hash_flag == 1) {
-				newline=there_is_hash(line, indirect_flag, hash_place);
+				newline = there_is_hash(line, indirect_flag, hash_place);
 			}
+			int flagfind = newline.find("HLT");
+			if (flagfind >= 0 && flagfind < newline.size())
+				HLT_FLAG = 1;
 			process(newline);
 		}
 		file.close();
@@ -355,7 +368,7 @@ void write_assembled_file() {
 	for (int i = 0;i < code.size();++i) {
 		if (i != 0) {
 			if (code[i] == "") {
-				outfile <<endl<< ");";
+				outfile << endl << ");";
 				outfile.close();
 				return;
 			}
@@ -366,13 +379,19 @@ void write_assembled_file() {
 		else {
 			outfile << "SIGNAL ram : ram_type := (" << endl;
 		}
-		outfile <<" "<<i<<"=> \""<<code[i]<<"\"";
+		outfile << " " << i << "=> \"" << code[i] << "\"";
 	}
 	outfile.close();
 }
 ////////////////////////////////////////////////////////////
 int main() {
-	assign_opcodes_reg_modes();
+	try {
+		assign_opcodes_reg_modes();
+	}
+	catch (int e) {
+		cout << "there's some thing wrong you have entered, check your inputs correctly as put number beside JSR,...etc";
+		return 0;
+	}
 	read_file_and_clean();
 	write_assembled_file();
 	system("pause");

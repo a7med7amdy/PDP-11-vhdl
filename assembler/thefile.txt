@@ -1,21 +1,22 @@
-MOV 19, R0
-MOV #20, R1
-MOV #0, R3
-CMP @R1, R3
-ADD (R1)+, 18
+MOV 13,R0
+Dec R0
+MOV (R2)+,12
 DEC R0
-BNE -6
-BR 4
-SUB (R1)+, 18
+CMP 12,@R2
+BLS 2
+MOV @R2,12
 DEC R0
-BNE -11
+BEQ 3
+INC R2
+BR -6
 HLT
 #0
 #7
-#4
-#-5
+#4 
+#5
 #3
-#-6
-#-1
+#6
+#1
 #8
-#-2
+#2
+ 

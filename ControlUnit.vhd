@@ -25,10 +25,7 @@ port (  IR : IN std_logic_vector (15 Downto 0);
 	BR,HLT : OUT std_logic;
 	Reg : OUT std_logic_vector(2 downto 0);
 	PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin: OUT std_logic;
-	operation: out std_logic_vector(4 downto 0);
-	next1,next2,inp,mpc: out std_logic_vector(4 downto 0);
-	pl:out std_logic;
-	cww: out std_logic_vector(17 downto 0));
+	operation: out std_logic_vector(4 downto 0));
 end ControlUnitComplete;
 
 Architecture Decoding_Circuit of ControlUnitComplete is
@@ -58,14 +55,6 @@ begin
 
 	CARRYin<=CW(2);  --F5 signal
 	SOURCEin<=SRCin;
-
-
-	next1<=nextAddress1;
-	next2<=nextaddress2;
-	inp<=MPCin;
-	pl<=PLAout;
-	mpc<=MPCout;
-	cww<=CW;
-
+	
 	N: entity work.mux2_3bit port map(IR(8 downto 6), IR(2 downto 0),SBit,Reg);
 end Decoding_Circuit;

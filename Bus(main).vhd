@@ -43,7 +43,7 @@ use work.my_types_pkg.all;
 architecture MainRoutine of processor is
 	--signal bibus,R1,R2,R3,R4,Trin1,Trin2,Trin3,Trin4,Trout1,Trout2,Trout3,Trout4 : std_logic_vector(31 DOWNTO 0);
 	--signal En1in,En2in,En3in,En4in,En1out,En2out,En3out,En4out : std_logic;
-	signal BR,HLT,Clk,ClkM,p : std_logic;
+	signal BR,HLT,Clk,ClkM : std_logic;
 	signal RegSelect : std_logic_vector(2 downto 0);
 	signal PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,Zin : std_logic;
 	signal bibus,fromMemory,BranchCircOut,toflag : std_logic_vector(15 DOWNTO 0);
@@ -51,9 +51,8 @@ architecture MainRoutine of processor is
 	--R0:7  R8-->MAR  R9-->MDR  R10-->IR  R11-->Source  R12-->Y   R13-->Z   R14-->FR
 	signal RegEnableIN,RegEnableOUT : std_logic_vector(0 to 7);
 	signal EnableIN,EnableOUT : std_logic_vector (0 to 13);
-	signal ALUoperation,flagReg, frompla,fromnxt,inp,total : std_logic_vector (4 downto 0);
+	signal ALUoperation,flagReg : std_logic_vector (4 downto 0);
 	signal EnableSPin,EnablePCin,EnableSPout,EnablePCout, clrY: std_logic;
-	signal cww : std_logic_vector (17 downto 0);
 	
 begin
 	--Memory Clock is opposite to normal one
@@ -63,7 +62,7 @@ begin
 	--clkm<=clock;
 	-----------------------------------------------------------------
 	--Control Unit port mapping
-	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation,frompla,fromnxt,inp,total,p,cww);
+	unit: entity work.ControlUnitComplete port map(R(10),Clk,Rst,BR,HLT,RegSelect,PCout,MDRout,Zout,Rout,SPout,SOURCEout,PCin,SPin,ADD,Rin,SUB,Yin,MDRin,SOURCEin,MARin,IRin,RD,WR,CARRYin,ALUoperation);
 	Zin<= ADD or SOURCEout or CARRYin;
 	clrY<=rst or carryin;
 	-----------------------------------------------------------------
