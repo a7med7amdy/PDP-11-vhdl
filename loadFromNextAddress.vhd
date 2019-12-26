@@ -46,7 +46,7 @@ auxNor <= M(0) or M(1) or M(2);
 regDir<=not(M(2));
 u0: mux4_1bit PORT MAP (NextAddressField(0),Sbit,auxNor,regDir,F6,muxout);
 N0new <= NextAddressField(0) or muxout;
-N0new2 <= N0new or Sbit;
+N0new2 <= N0new and Sbit;
 selAux <= F6(0) and F6(1) and N0new;
 u1: mux2 PORT MAP (N0new,N0new2,selAux,AddOut(0));
 u2: mux2_4bit PORT MAP (NextAddressField(4 DOWNTO 1),"1000",selAux,AddOut(4 DOWNTO 1));
