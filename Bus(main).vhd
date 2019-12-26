@@ -53,7 +53,7 @@ architecture MainRoutine of processor is
 	signal EnableIN,EnableOUT : std_logic_vector (0 to 13);
 	signal ALUoperation,flagReg, frompla,fromnxt,inp,total : std_logic_vector (4 downto 0);
 	signal EnableSPin,EnablePCin,EnableSPout,EnablePCout, clrY: std_logic;
-	signal cww : std_logic_vector (18 downto 0);
+	signal cww : std_logic_vector (17 downto 0);
 	
 begin
 	--Memory Clock is opposite to normal one
@@ -72,8 +72,7 @@ begin
 		U: entity work.reg16 port map(Trin(i),Clk,Rst,R(i));
 	end generate;
 	U: entity work.regSP port map(Trin(6),Clk,Rst,R(6));
-	ha:entity work.regpc port map(Trin(7),trout(14),clk,rst,br,R(7));
-	L22: for i in 8 to 11 generate
+	L22: for i in 7 to 11 generate
 		U22: entity work.reg16 port map(Trin(i),Clk,Rst,R(i));
 	end generate;
 	U23: entity work.reg16 port map(Trin(12),Clk,clrY,R(12));
@@ -88,7 +87,7 @@ begin
 		Z1: entity work.tri_state_buffer port map (bibus,EnableIN(i),Trin(i));
 	end generate;
 	EnableSPin<=EnableIN(6) or SPin;
-	EnablePCin<=EnableIN(7) or PCin or br;
+	EnablePCin<=EnableIN(7) or PCin or BR;
 	Z2: entity work.tri_state_buffer port map (bibus,EnableSPin,Trin(6));
 	Z3: entity work.tri_state_buffer port map (bibus,EnablePCin,Trin(7));
 	L3: for i in 8 to 12 generate
@@ -126,7 +125,7 @@ begin
 	-------------------------------------------------------------------
 	process (  Trout )
 	begin
-		for i in 0 to 13 loop
+		for i in 0 to 14 loop
 			if(Trout(i) /="ZZZZZZZZZZZZZZZZ" and Trout(i) /="UUUUUUUUUUUUUUUU") then
 			 	bibus<=Trout(i);
 			end if;

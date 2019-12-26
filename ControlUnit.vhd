@@ -28,7 +28,7 @@ port (  IR : IN std_logic_vector (15 Downto 0);
 	operation: out std_logic_vector(4 downto 0);
 	next1,next2,inp,mpc: out std_logic_vector(4 downto 0);
 	pl:out std_logic;
-	cww: out std_logic_vector(18 downto 0));
+	cww: out std_logic_vector(17 downto 0));
 end ControlUnitComplete;
 
 Architecture Decoding_Circuit of ControlUnitComplete is
@@ -39,11 +39,11 @@ signal nextAddress2 : std_logic_vector(4 downto 0 );
 signal M0 : std_logic_vector(2 downto 0);
 signal MPCin: std_logic_vector(4 downto 0);
 signal MPCout: std_logic_vector(4 downto 0);
-signal CW: std_logic_vector(18 downto 0);
+signal CW: std_logic_vector(17 downto 0);
 begin
 	ResetSbit<=not(MPCout(0)) and not(MPCout(1)) and not(MPCout(2)) and not(MPCout(3)) and not(MPCout(4)); 
 	N0:entity work.S_bit port map(SRCin,op1,Clk,ResetSbit,SBit); 
-	N1:entity work.LoadFromPLA port map(IR,M0,SBit,HLT,op1,nextAddress1,operation);
+	N1:entity work.LoadFromPLA port map(IR,M0,SBit,BR,HLT,op1,nextAddress1,operation);
 	N2:entity work.mux2_3bit port map(IR(11 downto 9), IR(5 downto 3),SBit,M0);
 	N3:entity work.loadFromNextAddress port map(CW(1 downto 0),CW(17 downto 13),M0,SBit,nextaddress2);
 	N11:entity work.reg5 port map(MPCin,Clk,RST,MPCout);
@@ -57,7 +57,6 @@ begin
 
 
 	CARRYin<=CW(2);  --F5 signal
-	br<=CW(18);
 	SOURCEin<=SRCin;
 
 

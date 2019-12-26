@@ -45,11 +45,8 @@ begin
     dec : Adder_bits_n PORT MAP(dest, var2, Cin, sum5, CO5, v5);
     
 
-    --PROCESS (Z, operation, signal_add, signal_sub, Cin, sum1, sum3, sum4, sum5, CO1, CO3, CO4, CO5, v1, v3, v4, v5)
-    process(signal_add,signal_sub,operation)
-BEGIN
-    --if operation="11111" then
-	--flag_reg<=flag(4 downto 0);
+    PROCESS (Z, operation, signal_add, signal_sub, Cin, sum1, sum3, sum4, sum5, CO1, CO3, CO4, CO5, v1, v3, v4, v5)
+    BEGIN
     IF signal_add = '1'  THEN
 	Z <= sum1;
         -- set carry flag
