@@ -8,3 +8,4 @@
 Debug
 assembler.v*
 *.sln
+assembler/.vs/*
